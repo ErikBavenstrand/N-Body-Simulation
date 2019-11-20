@@ -1,0 +1,93 @@
+#!/bin/bash
+array=()
+start=0
+end=4
+far=$4
+seed=$5
+size=$2
+iterations=$1
+threads=$3
+one=80000
+two=110000
+three=140000
+four=170000
+five=200000
+six=230000
+function average {
+    n=5 
+    m=$n
+    sum=0 
+    while [ $n -gt 0 ] 
+    do
+        num=${array[`expr $n - 1`]}     
+        sum=$(echo $sum + $num | bc)
+        n=`expr $n - 1` 
+    done 
+    echo "$sum / $m" | bc -l
+}
+
+mkdir -p benchmark
+echo "Program 4"
+#2
+for j in $(eval echo "{1..$threads}")
+do  
+    for i in $(eval echo "{$start..$end}")
+    do 
+        echo "./bin/4 $one $iterations $j $far $size $seed"
+        array[i]=`./bin/4 $one $iterations $j $far $size $seed`
+        echo ${array[i]}
+    done
+    avg=$(average)
+    echo "$j $avg" >> ./benchmark/4_$one.dat
+    echo "$one bodies $j threads in $avg seconds"
+
+    for i in $(eval echo "{$start..$end}")
+    do 
+        echo "./bin/4 $two $iterations $j $far $size $seed"
+        array[i]=`./bin/4 $two $iterations $j $far $size $seed`
+        echo ${array[i]}
+    done
+    avg=$(average)
+    echo "$j $avg" >> ./benchmark/4_$two.dat
+    echo "$two bodies $j threads in $avg seconds"
+
+    for i in $(eval echo "{$start..$end}")
+    do 
+        echo "./bin/4 $three $iterations $j $far $size $seed"
+        array[i]=`./bin/4 $three $iterations $j $far $size $seed`
+        echo ${array[i]}
+    done
+    avg=$(average)
+    echo "$j $avg" >> ./benchmark/4_$three.dat
+    echo "$three bodies $j threads in $avg seconds"
+
+    for i in $(eval echo "{$start..$end}")
+    do 
+        echo "./bin/4 $four $iterations $j $far $size $seed"
+        array[i]=`./bin/4 $four $iterations $j $far $size $seed`
+        echo ${array[i]}
+    done
+    avg=$(average)
+    echo "$j $avg" >> ./benchmark/4_$four.dat
+    echo "$four bodies $j threads in $avg seconds"
+
+    for i in $(eval echo "{$start..$end}")
+    do 
+        echo "./bin/4 $five $iterations $j $far $size $seed"
+        array[i]=`./bin/4 $five $iterations $j $far $size $seed`
+        echo ${array[i]}
+    done
+    avg=$(average)
+    echo "$j $avg" >> ./benchmark/4_$five.dat
+    echo "$five bodies $j threads in $avg seconds"
+
+    for i in $(eval echo "{$start..$end}")
+    do 
+        echo "./bin/4 $six $iterations $j $far $size $seed"
+        array[i]=`./bin/4 $six $iterations $j $far $size $seed`
+        echo ${array[i]}
+    done
+    avg=$(average)
+    echo "$j $avg" >> ./benchmark/4_$six.dat
+    echo "$six bodies $j threads in $avg seconds"
+done

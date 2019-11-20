@@ -1,0 +1,88 @@
+#!/bin/bash
+array=()
+start=0
+end=4
+seed=$3
+size=$2
+iterations=$1
+one=250
+two=300
+three=350
+four=400
+five=450
+six=500
+function average {
+    n=5 
+    m=$n
+    sum=0 
+    while [ $n -gt 0 ] 
+    do
+        num=${array[`expr $n - 1`]}     
+        sum=$(echo $sum + $num | bc)
+        n=`expr $n - 1` 
+    done 
+    echo "$sum / $m" | bc -l
+}
+
+mkdir -p benchmark
+echo "Program 1"
+#1
+for i in $(eval echo "{$start..$end}")
+do  
+    echo "./bin/1 $one $iterations $size $seed"
+    array[i]=`./bin/1 $one $iterations $size $seed`
+    echo ${array[i]}
+done
+avg=$(average)
+echo "$one $avg" >> ./benchmark/1.dat
+echo "$one bodies in $avg seconds"
+
+for i in $(eval echo "{$start..$end}")
+do
+    echo "./bin/1 $two $iterations $size $seed"
+    array[i]=`./bin/1 $two $iterations $size $seed`
+    echo ${array[i]}
+done
+avg=$(average)
+echo "$two $avg" >> ./benchmark/1.dat
+echo "$two bodies in $avg seconds"
+
+for i in $(eval echo "{$start..$end}")
+do
+    echo "./bin/1 $three $iterations $size $seed"
+    array[i]=`./bin/1 $three $iterations $size $seed`
+    echo ${array[i]}
+done
+avg=$(average)
+echo "$three $avg" >> ./benchmark/1.dat
+echo "$three bodies in $avg seconds"
+
+for i in $(eval echo "{$start..$end}")
+do
+    echo "./bin/1 $four $iterations $size $seed"
+    array[i]=`./bin/1 $four $iterations $size $seed`
+    echo ${array[i]}
+done
+avg=$(average)
+echo "$four $avg" >> ./benchmark/1.dat
+echo "$four bodies in $avg seconds"
+
+for i in $(eval echo "{$start..$end}")
+do
+    echo "./bin/1 $five $iterations $size $seed"
+    array[i]=`./bin/1 $five $iterations $size $seed`
+    echo ${array[i]}
+done
+avg=$(average)
+echo "$five $avg" >> ./benchmark/1.dat
+echo "$five bodies in $avg seconds"
+
+for i in $(eval echo "{$start..$end}")
+do
+    echo "./bin/1 $six $iterations $size $seed"
+    array[i]=`./bin/1 $six $iterations $size $seed`
+    echo ${array[i]}
+done
+avg=$(average)
+echo "$six $avg" >> ./benchmark/1.dat
+echo "$six bodies in $avg seconds"
