@@ -1,4 +1,4 @@
-# Concurrent N-Body Simulations
+# Concurrent N-Body Simulation
 > The project was done for a course in concurrent programming at KTH.
 
 The project evaluates two different methods of approximating an N-Body system.
